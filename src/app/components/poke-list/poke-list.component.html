@@ -1,0 +1,13 @@
+<div class="geralList">
+    <div class="divH2">
+        <h2>Pokemon List:</h2>
+        <div class="divInput">
+            <input class="searchInput" type="text" [(ngModel)]="valor">
+            <img class="lupa" src="../../../assets/image 11.png" alt="">
+        </div>
+    </div>
+    <div class="divList">
+        
+        <app-poke-card *ngFor="let poke of listaPokemon, let i = index" [id]="i+1" [name]="poke.name"></app-poke-card>
+    </div>
+</div>

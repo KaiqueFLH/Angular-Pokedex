@@ -1,0 +1,156 @@
+.card{
+    width: 250px;
+    height: 250px;
+    border-radius: 15px;
+    border-top: 8px solid #262528;
+    box-shadow: 0px 0px 20px 0px rgba(0,0,0,0.75);
+    transition: 0.2s;  
+    margin: 30px;
+}
+
+.card:hover{
+    cursor: pointer;
+    transform: scale(1.02);
+    transition: 0.2s;
+}
+
+.divImage{
+    width: 100%;
+    height: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.divName{
+    width: 100%;
+    height: 20%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.divType{
+    width: 100%;
+    height: 30%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.type{
+    width: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+    padding: 5px;
+    color: white;
+}
+
+
+
+
+/* 
+.bg{
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: rgba(0,0,0,0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+
+.cardModal{
+    width:50%;
+    height: 70%;
+    border-radius: 15px;
+    border-top: 8px solid #262528;
+    background-color: #ffffff;
+    box-shadow: 0px 0px 20px 0px rgba(0,0,0,0.75);
+    transition: 0.2s;  
+    margin: 30px;
+}
+
+.divImageModal{
+    width: 100%;
+    height: 25%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.imgPokeModal{
+    width: 300px;
+    height: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.divNameModal{
+    width: 100%;
+    height: 10%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.divDescription{
+    width: 100%;
+    height: 30%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.description{
+    width: 80%;
+    height: 30%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.divStats{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.stats{
+    display: flex;
+    gap: 50px;
+}
+
+.resultStats{
+    width: 100%;
+    display: flex;
+    justify-content: right;
+    gap: 122px;
+}
+
+.divTypeModal{
+    width: 100%;
+    height: 30%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.typeModal{
+    width: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+    padding: 5px;
+    color: white;
+} */
