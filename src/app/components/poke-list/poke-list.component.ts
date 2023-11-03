@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { AllPokeService } from 'src/app/services/allPoke/all-poke.service';
+import { PokeDescriptionService } from 'src/app/services/pokeDescription/poke-description.service';
 import { PokeOnlyService } from 'src/app/services/pokeOnly/poke-only.service';
 
 @Component({
@@ -9,22 +10,64 @@ import { PokeOnlyService } from 'src/app/services/pokeOnly/poke-only.service';
 })
 export class PokeListComponent {
   listaPokemon:any[] = [];
+
   valor:string = "";
+
+  modal:boolean = false;
+
+  description:any;
+
+  total:number = 0;
 
   listaTipos:any[] = [];
 
-  constructor( public allPokeService : AllPokeService, private pokeOnly : PokeOnlyService) { }
+  selectedPokemon:any;
+
+  pokemonData:any = {
+    abilities:[],
+    base_experience:0,
+    forms:[],
+    game_indices:[],
+    height:0,
+    held_items:[],
+    id:0,
+    is_default:false,
+    location_area_encounters:"",
+    moves:[],
+    name:"",
+    order:0,
+    past_types:[],
+    species:{},
+    sprites:{},
+    stats:[],
+    types:[],
+    weight:0
+  };
+
+
+  constructor( public allPokeService : AllPokeService, private pokeOnly : PokeOnlyService, private pokeDescript : PokeDescriptionService) { }
 
   async ngOnInit() {
-
     await this.getAllPoke();
+
     
+  }
+
+  ordenaLista(){
+    this.listaPokemon.sort((a,b)=>{
+      return a.id - b.id;
+    })
   }
 
   async getAllPoke(){
     this.allPokeService.getAllPoke().subscribe((data:any)=>{
       console.log(data);
-      this.listaPokemon = data.results;
+
+      data.results.forEach((element:any) => {
+        this.getPokeDescription(element.name);
+        this.getPokeByName(element.name);
+      });
+      
     })
   }
 
@@ -37,13 +80,113 @@ export class PokeListComponent {
     });
   }
 
-  async getPokeByName(){
-    this.pokeOnly.getPokeOnly(this.valor).subscribe((data:any)=>{
+  getPokeDescription( name:string ){
+    this.pokeDescript.getPokeDescription(name).subscribe((data:any)=>{
+      this.ordenaLista();
       console.log(data);
-      this.listaPokemon = data;
+      this.selectedPokemon.description = data.flavor_text_entries[5].flavor_text;
+      this.ordenaLista();
+      console.log(this.description);
+      
+    })
+  }
+
+  calculaStatTotal( stats:any[] ){
+    this.total = 0;
+    stats.forEach((element:any) => {
+      this.total += element.base_stat;
+    });
+
+    this.total = this.total / stats.length;
+    this.total = Math.round(this.total);
+
+    return this.total;
+  }
+
+  async getPokeByName(name:String){
+    this.pokeOnly.getPokeOnly(name).subscribe((data:any)=>{
+      console.log(data);
+      this.pokemonData = data;
+      this.selectedPokemon = data;
+      this.listaPokemon.push(this.pokemonData);
+      this.ordenaLista();
     })
   }
   
+  searchPokemon(){
+    if(this.valor == ""){
+      this.getAllPoke();
+      window.location.reload();
+    }
+    else{
+      this.listaPokemon = [];
+      this.getPokeByName(this.valor);
+    }
+  }
+
+  changeModalStatus(selectedPokemon:any){
+    this.pokemonData = selectedPokemon;
+    this.selectedPokemon = selectedPokemon;
+    this.modal = !this.modal;
+  }
+  
+
+  addLeadingZeros(id: number ): string {
+    const idString = id.toString();
+    if(idString.length >= 3){
+      return idString;
+    }else if(idString.length === 2){
+      return '0'.repeat(1) + idString;
+    }
+    return '0'.repeat(2) + idString;
+  }
+
+  toCapitalize(name: string): string {
+    return name.charAt(0).toUpperCase() + name.slice(1);
+  }
+
+  getTypeColor(type: string): string {
+    switch (type) {
+      case 'normal':
+        return 'gray';
+      case 'fire':
+        return 'red';
+      case 'water':
+        return 'blue';
+      case 'electric':
+        return 'yellow';
+      case 'grass':
+        return 'green';
+      case 'ice':
+        return 'lightblue';
+      case 'fighting':
+        return 'orange';
+      case 'poison':
+        return 'purple';
+      case 'ground':
+        return 'sienna';
+      case 'flying':
+        return 'skyblue';
+      case 'psychic':
+        return 'pink';
+      case 'bug':
+        return 'greenyellow';
+      case 'rock':
+        return 'brown';
+      case 'ghost':
+        return 'indigo';
+      case 'steel':
+        return 'slategray';
+      case 'dragon':
+        return 'royalblue';
+      case 'dark':
+        return 'black';
+      case 'fairy':
+        return 'pink';
+      default:
+        return 'gray';
+    }
+  }
 
 
 

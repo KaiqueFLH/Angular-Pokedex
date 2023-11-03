@@ -2,12 +2,78 @@
     <div class="divH2">
         <h2>Pokemon List:</h2>
         <div class="divInput">
-            <input class="searchInput" type="text" [(ngModel)]="valor">
+            <input (input)="searchPokemon()" class="searchInput" type="text" [(ngModel)]="valor">
             <img class="lupa" src="../../../assets/image 11.png" alt="">
         </div>
     </div>
     <div class="divList">
-        
-        <app-poke-card *ngFor="let poke of listaPokemon, let i = index" [id]="i+1" [name]="poke.name"></app-poke-card>
+
+        <app-poke-card (click)="changeModalStatus(poke)" *ngFor="let poke of listaPokemon; let i = index" [id]="poke.id"
+            [name]="poke.name"></app-poke-card>
     </div>
+</div>
+
+
+
+<div class="bg" *ngIf="modal">
+    <div class="cardModal">
+        <div style="padding: 10px; cursor: pointer; font-size: 25px;" (click)="changeModalStatus(pokemonData)">
+            X
+        </div>
+
+        <div style="display: flex; flex-direction: column; gap: 1px;">
+            <div class="img-name-div">
+                <div class="divImageModal">
+                    <img class="imgPokeModal" [src]="pokemonData.sprites.front_default" alt="">
+                </div>
+        
+                <div class="divNameModal">
+                    <h1 class="nameModal">{{toCapitalize(pokemonData.name)}}</h1>
+                    <p class="idPokeModal">#{{addLeadingZeros(pokemonData.id)}}</p>
+                </div>
+            </div>
+    
+            <div class="divDescription">
+                <p class="description">{{selectedPokemon.description}}</p>
+            </div>
+    
+            <div class="divStats">
+    
+    
+                <table>
+                    <thead class="columns">
+                        <tr>
+                            <th>Total:</th>
+                            <th>HP:</th>
+                            <th>Attack:</th>
+                            <th>Defense:</th>
+                            <th>Sp.Attack:</th>
+                            <th>Sp.Defense:</th>
+                            <th>Speed:</th>
+                        </tr>
+                    </thead>
+                    <tbody class="dados">
+                        <tr>
+                            <td>{{calculaStatTotal(pokemonData.stats)}}</td>
+                            <td>{{pokemonData.stats[0].base_stat}}</td>
+                            <td>{{pokemonData.stats[1].base_stat}}</td>
+                            <td>{{pokemonData.stats[2].base_stat}}</td>
+                            <td>{{pokemonData.stats[3].base_stat}}</td>
+                            <td>{{pokemonData.stats[4].base_stat}}</td>
+                            <td>{{pokemonData.stats[5].base_stat}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="divTypeModal">
+            <div style="display: flex ; gap: 30px;">
+                <p [ngStyle]="{ 'background-color': getTypeColor(tipo.type.name) }" class="typeModal"
+                    *ngFor="let tipo of pokemonData.types">{{tipo.type.name}}</p>
+            </div>
+        </div>
+    </div>
+
+
 </div>

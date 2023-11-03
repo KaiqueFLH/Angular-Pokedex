@@ -8,7 +8,7 @@ export class PokeOnlyService {
 
   constructor(private http : HttpClient) { }
 
-  getPokeOnly(pokeName:string){
+  getPokeOnly(pokeName:any){
     return this.http.get(`https://pokeapi.co/api/v2/pokemon/${pokeName}`)
   }
 }

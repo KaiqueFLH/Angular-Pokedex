@@ -20,12 +20,13 @@ export class PokeCardComponent {
   @Input()
   image!:string;
 
+  imagemUrl!:string;
+
   @Input()
   valor!:string;
 
-  modal:boolean = true;
+  
 
-  pokemonList:any[] = [];
 
   pokemonData:any = {
     abilities:[],
@@ -49,22 +50,27 @@ export class PokeCardComponent {
   };
 
   async ngOnInit() {
-    await this.getAllPoke();
-    await this.getTypes(this.name);
+    // await this.getAllPoke();
+    await this.getOnlyOnePoke(this.name);
+
+    
+    
   }
 
-  async getAllPoke(){
-    this.allPokeService.getAllPoke().subscribe((data:any)=>{
-      this.pokemonList = data.results;
-    })
-  }
+  // async getAllPoke(){
+  //   this.allPokeService.getAllPoke().subscribe((data:any)=>{
+  //     this.pokemonList = data.results;
+  //   })
+  // }
+  
 
-  async getTypes( name:string ){
+  async getOnlyOnePoke( name:string ){
     this.pokeOnly.getPokeOnly(name).subscribe((data:any)=>{
       this.pokemonData = data;
       JSON.stringify(this.pokemonData);
       
-      
+      this.imagemUrl = this.pokemonData.sprites.front_default;
+    console.log(this.imagemUrl);
     });
   }
 
@@ -125,7 +131,7 @@ export class PokeCardComponent {
     }
   }
 
-  getImageUrl(){
-    return this.image = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${this.id}.png`
-  }
+  // getImageUrl(){
+  //   return this.image = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${this.id}.png`
+  // }
 }
