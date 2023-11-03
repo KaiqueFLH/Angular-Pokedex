@@ -24,22 +24,20 @@
         <div style="display: flex; flex-direction: column; gap: 1px;">
             <div class="img-name-div">
                 <div class="divImageModal">
-                    <img class="imgPokeModal" [src]="pokemonData.sprites.front_default" alt="">
+                    <img class="imgPokeModal" [src]="selectedPokemon.sprites.versions['generation-v']['black-white'].animated.front_default" alt="">
                 </div>
-        
+
                 <div class="divNameModal">
-                    <h1 class="nameModal">{{toCapitalize(pokemonData.name)}}</h1>
-                    <p class="idPokeModal">#{{addLeadingZeros(pokemonData.id)}}</p>
+                    <h1 class="nameModal">{{toCapitalize(selectedPokemon.name)}}</h1>
+                    <p class="idPokeModal">#{{addLeadingZeros(selectedPokemon.id)}}</p>
                 </div>
             </div>
-    
+
             <div class="divDescription">
-                <p class="description">{{selectedPokemon.description}}</p>
+                <p class="description">{{descriptions[selectedPokemon.name]}}</p>
             </div>
-    
+
             <div class="divStats">
-    
-    
                 <table>
                     <thead class="columns">
                         <tr>
@@ -54,13 +52,13 @@
                     </thead>
                     <tbody class="dados">
                         <tr>
-                            <td>{{calculaStatTotal(pokemonData.stats)}}</td>
-                            <td>{{pokemonData.stats[0].base_stat}}</td>
-                            <td>{{pokemonData.stats[1].base_stat}}</td>
-                            <td>{{pokemonData.stats[2].base_stat}}</td>
-                            <td>{{pokemonData.stats[3].base_stat}}</td>
-                            <td>{{pokemonData.stats[4].base_stat}}</td>
-                            <td>{{pokemonData.stats[5].base_stat}}</td>
+                            <td>{{calculaStatTotal(selectedPokemon.stats)}}</td>
+                            <td>{{selectedPokemon.stats[0].base_stat}}</td>
+                            <td>{{selectedPokemon.stats[1].base_stat}}</td>
+                            <td>{{selectedPokemon.stats[2].base_stat}}</td>
+                            <td>{{selectedPokemon.stats[3].base_stat}}</td>
+                            <td>{{selectedPokemon.stats[4].base_stat}}</td>
+                            <td>{{selectedPokemon.stats[5].base_stat}}</td>
                         </tr>
                     </tbody>
                 </table>
@@ -68,12 +66,10 @@
         </div>
 
         <div class="divTypeModal">
-            <div style="display: flex ; gap: 30px;">
-                <p [ngStyle]="{ 'background-color': getTypeColor(tipo.type.name) }" class="typeModal"
-                    *ngFor="let tipo of pokemonData.types">{{tipo.type.name}}</p>
+            <div style="display: flex; gap: 30px;">
+                <p [ngStyle]="{'background-color': getTypeColor(tipo.type.name)}" class="typeModal"
+                    *ngFor="let tipo of selectedPokemon.types">{{tipo.type.name}}</p>
             </div>
         </div>
     </div>
-
-
 </div>

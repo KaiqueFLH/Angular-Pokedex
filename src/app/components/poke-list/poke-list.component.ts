@@ -9,91 +9,87 @@ import { PokeOnlyService } from 'src/app/services/pokeOnly/poke-only.service';
   styleUrls: ['./poke-list.component.css']
 })
 export class PokeListComponent {
-  listaPokemon:any[] = [];
+  
+  listaPokemon: any[] = [];
 
-  valor:string = "";
+  valor: string = "";
 
-  modal:boolean = false;
+  modal: boolean = false;
 
-  description:any;
+  description: any;
+  descriptions: { [key: string]: string } = {};
 
-  total:number = 0;
+  total: number = 0;
 
-  listaTipos:any[] = [];
+  listaTipos: any[] = [];
 
-  selectedPokemon:any;
+  selectedPokemon: any;
 
-  pokemonData:any = {
-    abilities:[],
-    base_experience:0,
-    forms:[],
-    game_indices:[],
-    height:0,
-    held_items:[],
-    id:0,
-    is_default:false,
-    location_area_encounters:"",
-    moves:[],
-    name:"",
-    order:0,
-    past_types:[],
-    species:{},
-    sprites:{},
-    stats:[],
-    types:[],
-    weight:0
+  pokemonData: any = {
+    abilities: [],
+    base_experience: 0,
+    forms: [],
+    game_indices: [],
+    height: 0,
+    held_items: [],
+    id: 0,
+    is_default: false,
+    location_area_encounters: "",
+    moves: [],
+    name: "",
+    order: 0,
+    past_types: [],
+    species: {},
+    sprites: {},
+    stats: [],
+    types: [],
+    weight: 0
   };
 
-
-  constructor( public allPokeService : AllPokeService, private pokeOnly : PokeOnlyService, private pokeDescript : PokeDescriptionService) { }
+  
+  constructor(public allPokeService: AllPokeService, private pokeOnly: PokeOnlyService, private pokeDescript: PokeDescriptionService) { }
 
   async ngOnInit() {
     await this.getAllPoke();
 
-    
-  }
 
-  ordenaLista(){
-    this.listaPokemon.sort((a,b)=>{
+  }
+  
+
+  ordenaLista() {
+    this.listaPokemon.sort((a, b) => {
       return a.id - b.id;
     })
   }
 
-  async getAllPoke(){
-    this.allPokeService.getAllPoke().subscribe((data:any)=>{
-      console.log(data);
-
-      data.results.forEach((element:any) => {
+  async getAllPoke() {
+    this.allPokeService.getAllPoke().subscribe((data: any) => {
+      data.results.forEach((element: any, index: number) => {
         this.getPokeDescription(element.name);
         this.getPokeByName(element.name);
       });
-      
-    })
+    });
+
   }
 
-  async getTypes( name:string ){
-    this.pokeOnly.getPokeOnly(name).subscribe((data:any)=>{
+  async getTypes(name: string) {
+    this.pokeOnly.getPokeOnly(name).subscribe((data: any) => {
       console.log(data);
       this.listaTipos = data.types;
       console.log(this.listaTipos);
-      
+
     });
   }
 
-  getPokeDescription( name:string ){
-    this.pokeDescript.getPokeDescription(name).subscribe((data:any)=>{
-      this.ordenaLista();
-      console.log(data);
-      this.selectedPokemon.description = data.flavor_text_entries[5].flavor_text;
-      this.ordenaLista();
-      console.log(this.description);
-      
-    })
+  getPokeDescription(name: string) {
+    this.pokeDescript.getPokeDescription(name).subscribe((data: any) => {
+      this.descriptions[name] = data.flavor_text_entries[5].flavor_text;
+    });
   }
 
-  calculaStatTotal( stats:any[] ){
+  calculaStatTotal(stats: any[]) {
     this.total = 0;
-    stats.forEach((element:any) => {
+    stats.forEach((element: any) => {
       this.total += element.base_stat;
     });
 
@@ -103,39 +99,43 @@ export class PokeListComponent {
     return this.total;
   }
 
-  async getPokeByName(name:String){
-    this.pokeOnly.getPokeOnly(name).subscribe((data:any)=>{
-      console.log(data);
+  async getPokeByName(name: string) {
+    this.pokeOnly.getPokeOnly(name).subscribe((data: any) => {
       this.pokemonData = data;
-      this.selectedPokemon = data;
+      this.selectedPokemon = data; // Adicione uma entrada vazia para a descrição do Pokémon.
       this.listaPokemon.push(this.pokemonData);
       this.ordenaLista();
-    })
+      this.getPokeDescription(name); // Passe o índice.
+    });
   }
-  
-  searchPokemon(){
-    if(this.valor == ""){
+
+  searchPokemon() {
+    if (this.valor == "") {
       this.getAllPoke();
       window.location.reload();
     }
-    else{
+    else {
       this.listaPokemon = [];
       this.getPokeByName(this.valor);
     }
   }
 
-  changeModalStatus(selectedPokemon:any){
+  changeModalStatus(selectedPokemon: any) {
     this.pokemonData = selectedPokemon;
-    this.selectedPokemon = selectedPokemon;
+    this.selectedPokemon = {
+      ...selectedPokemon,
+      description: this.descriptions[this.listaPokemon.indexOf(selectedPokemon)]
+    };
     this.modal = !this.modal;
   }
-  
 
-  addLeadingZeros(id: number ): string {
+
+
+  addLeadingZeros(id: number): string {
     const idString = id.toString();
-    if(idString.length >= 3){
+    if (idString.length >= 3) {
       return idString;
-    }else if(idString.length === 2){
+    } else if (idString.length === 2) {
       return '0'.repeat(1) + idString;
     }
     return '0'.repeat(2) + idString;
