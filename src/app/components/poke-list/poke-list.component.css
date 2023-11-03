@@ -62,7 +62,8 @@
     display: flex;
     justify-content: center;
     align-items: center;
-
+    
+    z-index: 99222;
 }
 
 .cardModal {
@@ -102,7 +103,8 @@
 }
 
 .imgPokeModal {
-    width: 280px;
+    width: 20%;
+    height: 20%;
     height: auto;
     display: flex;
     justify-content: center;

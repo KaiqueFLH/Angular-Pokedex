@@ -5,7 +5,6 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { PokeCardComponent } from './components/poke-card/poke-card.component';
 import { PokeListComponent } from './components/poke-list/poke-list.component';
-import { PokeModalComponent } from './components/poke-modal/poke-modal.component';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { HomeComponent } from './components/home/home.component';
@@ -21,7 +20,6 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
     AppComponent,
     PokeCardComponent,
     PokeListComponent,
-    PokeModalComponent,
     HomeComponent,
     HeaderComponent,
   ],

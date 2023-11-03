@@ -112,7 +112,6 @@ export class PokeListComponent {
   searchPokemon() {
     if (this.valor == "") {
       this.getAllPoke();
-      window.location.reload();
     }
     else {
       this.listaPokemon = [];
@@ -121,11 +120,15 @@ export class PokeListComponent {
   }
 
   changeModalStatus(selectedPokemon: any) {
-    this.pokemonData = selectedPokemon;
-    this.selectedPokemon = {
-      ...selectedPokemon,
-      description: this.descriptions[this.listaPokemon.indexOf(selectedPokemon)]
-    };
+    if (selectedPokemon) {
+      this.pokemonData = selectedPokemon;
+      this.selectedPokemon = {
+        ...selectedPokemon,
+        description: this.descriptions[selectedPokemon.name]
+      };
+    } else {
+      this.selectedPokemon = null;
+    }
     this.modal = !this.modal;
   }
 
