@@ -46,6 +46,7 @@ export class PokeCardComponent {
     sprites:{},
     stats:[],
     types:[],
+    favorite:false,
     weight:0
   };
 

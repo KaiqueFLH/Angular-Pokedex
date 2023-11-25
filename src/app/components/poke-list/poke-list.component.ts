@@ -12,9 +12,11 @@ export class PokeListComponent {
   
   listaPokemon: any[] = [];
 
+  favoritePokemons: any[] = [];
+
   valor: string = "";
 
-  modal: boolean = false;
+  modal: boolean = true;
 
   description: any;
   descriptions: { [key: string]: string } = {};
@@ -23,7 +25,9 @@ export class PokeListComponent {
 
   listaTipos: any[] = [];
 
-  selectedPokemon: any;
+  selectedPokemon: any ={ 
+    favorite: false
+  };
 
   pokemonData: any = {
     abilities: [],
@@ -46,15 +50,26 @@ export class PokeListComponent {
     weight: 0
   };
 
+  favorite:boolean = this.selectedPokemon.favorite;
+
   
   constructor(public allPokeService: AllPokeService, private pokeOnly: PokeOnlyService, private pokeDescript: PokeDescriptionService) { }
 
   async ngOnInit() {
     await this.getAllPoke();
-
-
   }
   
+  favoriteStatus() {
+    this.selectedPokemon.favorite = !this.selectedPokemon.favorite;
+    console.log(this.selectedPokemon.favorite);
+
+    if(this.selectedPokemon.favorite == true) {
+      this.favoritePokemons.push(this.selectedPokemon);
+    }
+
+    console.log(this.favoritePokemons);
+    
+  }
 
   ordenaLista() {
     this.listaPokemon.sort((a, b) => {
@@ -111,12 +126,14 @@ export class PokeListComponent {
 
   searchPokemon() {
     if (this.valor == "") {
+      this.listaPokemon = [];
       this.getAllPoke();
     }
-    else {
-      this.listaPokemon = [];
-      this.getPokeByName(this.valor);
-    }
+    
+    let pokeSearched = this.listaPokemon.filter((poke) => poke.name.includes(this.valor.toLowerCase()));
+
+    this.listaPokemon = pokeSearched;
+
   }
 
   changeModalStatus(selectedPokemon: any) {
@@ -124,7 +141,8 @@ export class PokeListComponent {
       this.pokemonData = selectedPokemon;
       this.selectedPokemon = {
         ...selectedPokemon,
-        description: this.descriptions[selectedPokemon.name]
+        description: this.descriptions[selectedPokemon.name],
+        favorite: false
       };
     } else {
       this.selectedPokemon = null;
