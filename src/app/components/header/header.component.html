@@ -24,9 +24,28 @@
     </div>
 
     <div class="div-links">
-        <a routerLink="/home" routerLinkActive="active">Home</a>
-        <a routerLink="/pokelist" routerLinkActive="active">Pokemon List</a>
-        <a routerLink="/favorites" routerLinkActive="active">Favorites</a>
+        <a>Home</a>
+        <a>Pokemon List</a>
+        <a (click)="toggleFavorites()">Favorites</a>
     </div>
 
 </div>
+
+<section *ngIf="modal" class="modal-favorites">
+    <div style="height: 20%; width: 100%;">
+        <div style="padding-top: 30px;" class="div-close">
+            <img (click)="toggleFavorites()" class="img-close"
+                src="https://cdn-icons-png.flaticon.com/512/1828/1828778.png" alt="">
+        </div>
+
+        <div class="div-logo-sideBar">
+            <img src="https://cdn-icons-png.flaticon.com/512/1068/1068729.png" alt="">
+            <h2>Pokedex Angular</h2>
+        </div>
+    </div>
+
+    <div class="divList">
+        <app-poke-card *ngFor="let poke of listaPokemon; let i = index" [id]="poke.id"
+            [name]="poke.name"></app-poke-card>
+    </div>
+</section>

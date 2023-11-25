@@ -48,6 +48,8 @@ export class PokeListComponent {
       this.favoritePokemons.splice(this.favoritePokemons.indexOf(this.selectedPokemon), 1);
     }
 
+    window.localStorage.setItem('favoritePokemons', JSON.stringify(this.favoritePokemons));
+
     console.log(this.favoritePokemons);
 
   }
