@@ -1,6 +1,32 @@
 <header>
     <div class="divHeader">
+
+        <img (click)="toggleSidebar()" class="img-hamburguer-list"
+            src="https://cdn-icons-png.flaticon.com/512/6499/6499731.png" alt="">
+
+        <div class="div-logo-img">
+            <img src="https://cdn-icons-png.flaticon.com/512/1068/1068729.png" alt="">
+            <h2>Pokedex Angular</h2>
+        </div>
+    </div>
+</header>
+
+<div class="sidebar" *ngIf="sidebar">
+
+    <div class="div-close">
+        <img (click)="toggleSidebar()" class="img-close" src="https://cdn-icons-png.flaticon.com/512/1828/1828778.png"
+            alt="">
+    </div>
+
+    <div class="div-logo-sideBar">
         <img src="https://cdn-icons-png.flaticon.com/512/1068/1068729.png" alt="">
         <h2>Pokedex Angular</h2>
     </div>
-</header>
+
+    <div class="div-links">
+        <a routerLink="/home" routerLinkActive="active">Home</a>
+        <a routerLink="/pokelist" routerLinkActive="active">Pokemon List</a>
+        <a routerLink="/favorites" routerLinkActive="active">Favorites</a>
+    </div>
+
+</div>

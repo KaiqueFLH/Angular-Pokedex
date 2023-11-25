@@ -9,14 +9,14 @@ import { PokeOnlyService } from 'src/app/services/pokeOnly/poke-only.service';
   styleUrls: ['./poke-list.component.css']
 })
 export class PokeListComponent {
-  
+
   listaPokemon: any[] = [];
 
   favoritePokemons: any[] = [];
 
   valor: string = "";
 
-  modal: boolean = true;
+  modal: boolean = false;
 
   description: any;
   descriptions: { [key: string]: string } = {};
@@ -25,50 +25,31 @@ export class PokeListComponent {
 
   listaTipos: any[] = [];
 
-  selectedPokemon: any ={ 
+  selectedPokemon: any = {
     favorite: false
   };
 
-  pokemonData: any = {
-    abilities: [],
-    base_experience: 0,
-    forms: [],
-    game_indices: [],
-    height: 0,
-    held_items: [],
-    id: 0,
-    is_default: false,
-    location_area_encounters: "",
-    moves: [],
-    name: "",
-    order: 0,
-    past_types: [],
-    species: {},
-    sprites: {},
-    stats: [],
-    types: [],
-    weight: 0
-  };
+  favorite: boolean = this.selectedPokemon.favorite;
 
-  favorite:boolean = this.selectedPokemon.favorite;
 
-  
   constructor(public allPokeService: AllPokeService, private pokeOnly: PokeOnlyService, private pokeDescript: PokeDescriptionService) { }
 
   async ngOnInit() {
     await this.getAllPoke();
   }
-  
+
   favoriteStatus() {
     this.selectedPokemon.favorite = !this.selectedPokemon.favorite;
     console.log(this.selectedPokemon.favorite);
 
-    if(this.selectedPokemon.favorite == true) {
+    if (this.selectedPokemon.favorite == true) {
       this.favoritePokemons.push(this.selectedPokemon);
+    } else {
+      this.favoritePokemons.splice(this.favoritePokemons.indexOf(this.selectedPokemon), 1);
     }
 
     console.log(this.favoritePokemons);
-    
+
   }
 
   ordenaLista() {
@@ -116,9 +97,8 @@ export class PokeListComponent {
 
   async getPokeByName(name: string) {
     this.pokeOnly.getPokeOnly(name).subscribe((data: any) => {
-      this.pokemonData = data;
       this.selectedPokemon = data; // Adicione uma entrada vazia para a descrição do Pokémon.
-      this.listaPokemon.push(this.pokemonData);
+      this.listaPokemon.push(this.selectedPokemon);
       this.ordenaLista();
       this.getPokeDescription(name); // Passe o índice.
     });
@@ -129,7 +109,7 @@ export class PokeListComponent {
       this.listaPokemon = [];
       this.getAllPoke();
     }
-    
+
     let pokeSearched = this.listaPokemon.filter((poke) => poke.name.includes(this.valor.toLowerCase()));
 
     this.listaPokemon = pokeSearched;
@@ -137,16 +117,18 @@ export class PokeListComponent {
   }
 
   changeModalStatus(selectedPokemon: any) {
-    if (selectedPokemon) {
-      this.pokemonData = selectedPokemon;
-      this.selectedPokemon = {
-        ...selectedPokemon,
-        description: this.descriptions[selectedPokemon.name],
-        favorite: false
-      };
+
+    const favoritePokemon = this.favoritePokemons.find(favPokemon => favPokemon.id === selectedPokemon.id);
+
+    if (favoritePokemon) {
+      // If the pokemon is in the favorites list, mark it as favorite
+      selectedPokemon.favorite = true;
     } else {
-      this.selectedPokemon = null;
+      // If the selectedPokemon is not in the favorites list, mark it as not favorite
+      selectedPokemon.favorite = false;
     }
+
+    this.selectedPokemon = selectedPokemon;
     this.modal = !this.modal;
   }
 

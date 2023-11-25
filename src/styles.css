@@ -13,3 +13,20 @@ input{
     outline: none;
     border: none;
 }
+
+::-webkit-scrollbar {
+    width: 15px;
+}
+
+::-webkit-scrollbar-track {
+    background: #262528;
+}
+
+  
+::-webkit-scrollbar {
+    width: 15px;
+    height: 8px;
+}
+::-webkit-scrollbar-thumb {
+    background-color: #6d6d6d;
+}

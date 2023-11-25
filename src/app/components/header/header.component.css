@@ -13,12 +13,89 @@ header{
     display: flex;
     align-items: center;
     gap: 30px;
-    color: white;
     width: 100%;
+}
+
+h2{
+    color: #ffffff;
+    font-size: 25px;
+}
+
+.img-hamburguer-list{
+    width: 50px;
+    margin-left: 40px;
+}
+
+.div-logo-img{
+    display: flex;
+    align-items: center;
+    gap: 30px;
 }
 
 img{
     width: 100px;
-    margin-left: 45px;
+    
     filter: invert(90%);
+}
+
+.sidebar{
+    width: 25.2%;
+    height: 100%;
+    background-color: #262528;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 9999;
+    display: flex;
+    justify-content: flex-start;
+    gap: 50px;
+    padding-top: 50px;
+    align-items: center;
+    flex-direction: column;
+    transition: 0.3s;
+    animation: sidebar 0.3s ease-in-out;
+}
+
+.div-close{
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
+    margin-right: 20px;
+}
+
+.div-close:click{
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
+    margin-right: 20px;
+}
+
+.img-close{
+    width: 30px;
+    cursor: pointer;
+    margin-right: 30px;
+}
+
+.div-logo-sideBar{
+    display: flex;
+    flex-direction: column;
+    align-items: center; 
+    justify-content: center;
+    gap: 20px;
+}
+
+.div-links{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;  
+}
+
+@keyframes sidebar{
+    0%{
+        transform: translateX(-100%);
+    }
+
+    100%{
+        transform: translateX(0%);
+    } 
 }
